@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/04 12:29:28 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:47:21 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	init(t_info *info, char **argv)
 		info->min_eat = -1;
 	else
 		info->min_eat = ft_atoi(argv[5]);
-	if (info->philo_count < 2 || info->time_to_die < 0 || info->time_to_eat < 0
+	if (info->philo_count < 1 || info->time_to_die < 0 || info->time_to_eat < 0
 		|| info->time_to_sleep < 0 || info->min_eat < -1)
 		return (-1);
 	if (init_philos(info) != 0 || init_mutex(info) != 0)
