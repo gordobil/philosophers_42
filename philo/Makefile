@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/02 13:13:30 by ngordobi          #+#    #+#              #
-#    Updated: 2024/09/02 14:02:15 by ngordobi         ###   ########.fr        #
+#    Updated: 2024/09/03 21:11:16 by ngordobi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC					=	gcc
 CC_FLAGS			=	-Wall -Wextra -Werror
 
 SOURCES				=	philo.c \
-						check_args.c \
+						utils.c \
 
 OBJECTS				= 	$(SOURCES:%.c=%.o)
 

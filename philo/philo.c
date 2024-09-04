@@ -3,38 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/02 14:07:56 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/03 21:13:20 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_args(t_args *args, char **argv)
+int	init_args(t_info *info, char **argv)
 {
-	if (check_args(argv) != 0)
+	if (check_info(argv) != 0)
 		return (-1);
-	args->philos = atoi(argv[1]);
-	args->time_to_die = atoi(argv[2]);
-	args->time_to_eat = atoi(argv[3]);
-	args->time_to_sleep = atoi(argv[4]);
+	info->philos = ft_atoi(argv[1]);
+	info->time_to_die = ft_atoi(argv[2]);
+	info->time_to_eat = ft_atoi(argv[3]);
+	info->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5] == NULL)
-		args->min_eat = -1;
+		info->min_eat = -1;
 	else
-		args->min_eat = atoi(argv[5]);
-	if (!args->philos || !args->time_to_die || !args->time_to_eat
-		|| !args->time_to_sleep || !args->min_eat)
+		info->min_eat = ft_atoi(argv[5]);
+	if (!info->philos || !info->time_to_die || !info->time_to_eat
+		|| !info->time_to_sleep || !info->min_eat)
 		return (-1);
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_args	args;
+	t_info	info;
 
-	if ((argc != 5 && argc != 6) || init_args(&args, argv) != 0)
+	if ((argc != 5 && argc != 6) || init_args(&info, argv) != 0)
 	{
 		printf ("Invalid arguments\n");
 		return (-1);
