@@ -6,11 +6,23 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/03 21:12:52 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:18:53 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long long	timer(long long past_time)
+{
+	struct timeval	s_time;
+	long long		time;
+
+	gettimeofday(&s_time, NULL);
+	time = (s_time.tv_sec * 1000) + (s_time.tv_usec / 1000);
+	if (past_time != NULL)
+		return (time - past_time);
+	return (time);
+}
 
 int	check_args(char **argv)
 {
