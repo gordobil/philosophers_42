@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/09 13:02:22 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:45:12 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	sleeping(long long time, t_philo *philo)
-{
-	long long	start;
-	
-	start = timer(NULL);
-	while (timer(start) < time && philo->info->died == 0)
-		usleep(50);
-}
 
 void	eating(t_philo *philo, t_info *info)
 {
@@ -27,10 +18,10 @@ void	eating(t_philo *philo, t_info *info)
 	int	ate;
 
 	pthread_mutex_lock(&(info->forks[philo->l_fork]));
-	print_logs(timer(NULL), philo->philo, 'f');
+	print_logs(timer(NULL), philo->philo, 'f', info);
 	pthread_mutex_lock(&(info->forks[philo->r_fork]));
-	print_logs(timer(NULL), philo->philo, 'f');
-	print_logs(timer(NULL), philo->philo, 'e');
+	print_logs(timer(NULL), philo->philo, 'f', info);
+	print_logs(timer(NULL), philo->philo, 'e', info);
 	sleeping(info->time_to_eat, philo);
 	philo->times_eaten++;
 	philo->last_eat = timer(NULL);
@@ -61,11 +52,16 @@ void	thread_actions(void *philo_void)
 	{
 		eating(philo, info);
 		if (info->min_eat > -1 && info->ate == 1)
-			break ;
-		print_logs(timer(NULL), philo->philo, 's');
+		{
+			exit_philo(info);
+			return ;
+		}
+		print_logs(timer(NULL), philo->philo, 's', info);
 		sleeping(timer(NULL), philo);
-		print_logs(timer(NULL), philo->philo, 't');
+		print_logs(timer(NULL), philo->philo, 't', info);
 	}
+	if (info->died != 0)
+		exit_philo(info);
 }
 
 int	philo(t_info *info)
@@ -78,8 +74,8 @@ int	philo(t_info *info)
 	info->timer_start = timer(NULL);
 	while (i < info->philo_count)
 	{
-		pthread_create(&philo[i]->thread, NULL, thread_actions, &philo[i]);
-		philo[i]->last_eat = timer(NULL);
+		pthread_create(&philo[i].thread, NULL, thread_actions, &philo[i]);
+		philo[i].last_eat = timer(NULL);
 		i++;
 	}
 	return (0);
