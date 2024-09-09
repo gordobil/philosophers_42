@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/09 12:58:33 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:17:55 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-struct s_info;
+# define CYAN	"\033[0;33m"
+# define RED	"\033[31m"
+# define WHITE	"\033[0m"
+
+struct	s_info;
 
 typedef struct s_philo
 {
@@ -39,7 +43,7 @@ typedef struct s_info
 	long long			time_to_eat;
 	long long			time_to_sleep;
 	int					min_eat;
-	int					ate;.0584
+	int					ate;
 	int					died;
 	long long			timer_start;
 	t_philo				*philos;
@@ -47,10 +51,16 @@ typedef struct s_info
 	pthread_mutex_t		printing;
 }						t_info;
 
+//MAIN
 int			init(t_info *info, char **argv);
 int			check_args(char **argv);
-long long	timer(t_info *info);
-int			print_logs(long long time, int philo, char log);
+void		sleeping(long long time, t_philo *philo);
+int			check_death(t_info *info);
+void		exit_philo(t_info *info);
+
+//UTILS
+long long	timer(long long past_time);
+int			print_logs(long long time, int philo, char log, t_info *info);
 long		ft_atoi(const char *str);
 
 #endif
