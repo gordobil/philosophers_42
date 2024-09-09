@@ -6,11 +6,28 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/06 13:18:53 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:15:06 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	print_logs(long long time, int philo, char log)
+{
+	if (log == 'f')
+		printf("%lld %d has taken a fork\n", time, philo);
+	else if (log == 'e')
+		printf("%lld %d is eating\n", time, philo);
+	else if (log == 's')
+		printf("%lld %d is sleeping\n", time, philo);
+	else if (log == 't')
+		printf("%lld %d is thinking\n", time, philo);
+	else if (log == 'd')
+		printf("%lld %d died\n", time, philo);
+	else
+		return (-1);
+	return (0);
+}
 
 long long	timer(long long past_time)
 {

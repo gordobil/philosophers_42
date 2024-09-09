@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/06 13:54:19 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:42:35 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	init_philos(t_info *info)
 	{
 		info->philos[i - 1].info = info;
 		info->philos[i - 1].philo = i;
+		info->philos[i - 1].times_eaten = 0;
+		info->philos[i - 1].last_eat = 0;
 		info->philos[i - 1].l_fork = i;
 		info->philos[i - 1].r_fork = i + 1;
 		if (i == info->philo_count)
@@ -56,6 +58,7 @@ int	init(t_info *info, char **argv)
 	info->time_to_eat = ft_atoi(argv[3]);
 	info->time_to_sleep = ft_atoi(argv[4]);
 	info->died = 0;
+	info->ate = 0;
 	if (argv[5] == NULL)
 		info->min_eat = -1;
 	else

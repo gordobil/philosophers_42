@@ -6,15 +6,46 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/06 14:58:29 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:02:22 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	eating(t_philo *philo, t_info *info)
+void	sleeping(long long time, t_philo *philo)
 {
+	long long	start;
 	
+	start = timer(NULL);
+	while (timer(start) < time && philo->info->died == 0)
+		usleep(50);
+}
+
+void	eating(t_philo *philo, t_info *info)
+{
+	int	i;
+	int	ate;
+
+	pthread_mutex_lock(&(info->forks[philo->l_fork]));
+	print_logs(timer(NULL), philo->philo, 'f');
+	pthread_mutex_lock(&(info->forks[philo->r_fork]));
+	print_logs(timer(NULL), philo->philo, 'f');
+	print_logs(timer(NULL), philo->philo, 'e');
+	sleeping(info->time_to_eat, philo);
+	philo->times_eaten++;
+	philo->last_eat = timer(NULL);
+	pthread_mutex_unlock(&(info->forks[philo->l_fork]));
+	pthread_mutex_unlock(&(info->forks[philo->r_fork]));
+	i = 0;
+	ate = 0;
+	while (i < info->philo_count && info->min_eat != -1)
+	{
+		if (info->philos[i].times_eaten >= info->min_eat)
+			ate++;
+		i++;
+	}
+	if (ate == info->philo_count)
+		info->ate == 1;
 }
 
 void	thread_actions(void *philo_void)
@@ -29,6 +60,11 @@ void	thread_actions(void *philo_void)
 	while (info->died == 0)
 	{
 		eating(philo, info);
+		if (info->min_eat > -1 && info->ate == 1)
+			break ;
+		print_logs(timer(NULL), philo->philo, 's');
+		sleeping(timer(NULL), philo);
+		print_logs(timer(NULL), philo->philo, 't');
 	}
 }
 
@@ -43,7 +79,7 @@ int	philo(t_info *info)
 	while (i < info->philo_count)
 	{
 		pthread_create(&philo[i]->thread, NULL, thread_actions, &philo[i]);
-		philo[i].last_eat = timer(NULL);
+		philo[i]->last_eat = timer(NULL);
 		i++;
 	}
 	return (0);
