@@ -6,7 +6,7 @@
 #    By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/02 13:13:30 by ngordobi          #+#    #+#              #
-#    Updated: 2024/09/04 12:08:13 by ngordobi         ###   ########.fr        #
+#    Updated: 2024/09/09 14:19:44 by ngordobi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CC_FLAGS			=	-Wall -Wextra -Werror
 SOURCES				=	philo.c \
 						init.c \
 						utils.c \
+						end_philo.c \
 
 OBJECTS				= 	$(SOURCES:%.c=%.o)
 
