@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/09 12:42:35 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:45:22 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,4 @@ int	init(t_info *info, char **argv)
 		return (-1);
 	return (0);
 }
+
