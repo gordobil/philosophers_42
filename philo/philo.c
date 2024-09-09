@@ -6,11 +6,20 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/09 13:45:12 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:25:36 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	sleeping(long long time, t_philo *philo)
+{
+	long long	start;
+
+	start = timer(NULL);
+	while (timer(start) < time && philo->info->died == 0)
+		usleep(50);
+}
 
 void	eating(t_philo *philo, t_info *info)
 {
