@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/09 14:17:55 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:32:12 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define CYAN	"\033[0;33m"
+# define CYAN	"\033[1;93m"
 # define RED	"\033[31m"
 # define WHITE	"\033[0m"
 
@@ -54,7 +54,7 @@ typedef struct s_info
 //MAIN
 int			init(t_info *info, char **argv);
 int			check_args(char **argv);
-void		sleeping(long long time, t_philo *philo);
+void		sleeping(long long time);
 int			check_death(t_info *info);
 void		exit_philo(t_info *info);
 

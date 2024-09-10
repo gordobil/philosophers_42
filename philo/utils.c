@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/09 14:25:31 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:42:33 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	print_logs(long long time, int philo, char log, t_info *info)
 		printf("%d is sleeping\n", philo);
 	else if (log == 't')
 		printf("%d is thinking\n", philo);
+	else if (log == 'a')
+		printf("All philosophers ate at least %d times\n", philo);
 	else if (log == 'd')
 	{
 		printf("%d ", philo);
@@ -40,7 +42,7 @@ long long	timer(long long past_time)
 
 	gettimeofday(&s_time, NULL);
 	time = (s_time.tv_sec * 1000) + (s_time.tv_usec / 1000);
-	if (past_time != NULL)
+	if (past_time > -1)
 		return (time - past_time);
 	return (time);
 }
