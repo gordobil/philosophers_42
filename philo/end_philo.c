@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end_philo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/10 13:43:34 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:41:10 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,26 @@ int	check_death(t_info *info)
 	int	i;
 	int	ate;
 
-	i = 0;
-	ate = 0;
-	while (info->ate == 0)
+	while (info->ate == 0 && info->died == 0)
 	{
-		while (i < info->philo_count && info->died != 1)
+		i = -1;
+		ate = 0;
+		while (++i < info->philo_count && info->died != 1)
 		{
 			if (timer(info->philos[i].last_eat) >= info->time_to_die)
 			{
-				print_logs(timer(-1), 0, 'd', info);
 				info->died = 1;
-				break ;
+				print_logs(i + 1, 'd', info);
+				return (-1);
 			}
 			else if (info->philos[i].times_eaten >= info->min_eat)
 				ate++;
-			i++;
 		}
-		if (ate == info->philo_count)
+		if (ate == info->philo_count && info->min_eat > -1)
 		{
-			print_logs(timer(-1), info->min_eat, 'a', info);
 			info->ate = 1;
+			print_logs(info->min_eat, 'a', info);
+			return (1);
 		}
 	}
 }

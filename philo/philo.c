@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/10 13:39:37 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:40:19 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	eating(t_philo *philo, t_info *info)
 	int	ate;
 
 	pthread_mutex_lock(&(info->forks[philo->l_fork]));
-	print_logs(timer(-1), philo->philo, 'f', info);
+	print_logs(philo->philo, 'f', info);
 	pthread_mutex_lock(&(info->forks[philo->r_fork]));
-	print_logs(timer(-1), philo->philo, 'f', info);
-	print_logs(timer(-1), philo->philo, 'e', info);
+	print_logs(philo->philo, 'f', info);
+	print_logs(philo->philo, 'e', info);
 	sleeping(info->time_to_eat);
 	philo->times_eaten++;
 	philo->last_eat = timer(-1);
@@ -46,18 +46,18 @@ void	*thread_actions(void *philo_void)
 
 	philo = (t_philo *)philo_void;
 	info = philo->info;
-	// if (philo->philo % 2 != 0)
-	// 	usleep(7000);
+	if (philo->philo % 2 == 0)
+		usleep(500);
 	while (info->died == 0 && info->ate == 0)
 	{
 		eating(philo, info);
 		if (info->died != 0 || (info->min_eat > -1 && info->ate != 0))
 			break ;
-		print_logs(timer(-1), philo->philo, 's', info);
+		print_logs(philo->philo, 's', info);
 		sleeping(info->time_to_sleep);
 		if (info->died != 0 || (info->min_eat > -1 && info->ate != 0))
 			break ;
-		print_logs(timer(-1), philo->philo, 't', info);
+		print_logs(philo->philo, 't', info);
 	}
 }
 

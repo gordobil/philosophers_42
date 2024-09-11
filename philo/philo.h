@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/10 13:32:12 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:35:12 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 
 # define CYAN	"\033[1;93m"
+# define YELLOW	"\033[1;96m" 
 # define RED	"\033[31m"
 # define WHITE	"\033[0m"
 
@@ -60,7 +61,7 @@ void		exit_philo(t_info *info);
 
 //UTILS
 long long	timer(long long past_time);
-int			print_logs(long long time, int philo, char log, t_info *info);
+int			print_logs(int philo, char log, t_info *info);
 long		ft_atoi(const char *str);
 
 #endif

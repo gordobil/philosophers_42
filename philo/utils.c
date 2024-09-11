@@ -3,33 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/10 13:42:33 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:35:02 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	print_logs(long long time, int philo, char log, t_info *info)
+int	print_logs(int philo, char log, t_info *info)
 {
 	pthread_mutex_lock(&(info->printing));
-	printf(CYAN"%lld "WHITE, time);
-	if (log == 'f')
-		printf("%d has taken a fork\n", philo);
-	else if (log == 'e')
-		printf("%d is eating\n", philo);
-	else if (log == 's')
-		printf("%d is sleeping\n", philo);
-	else if (log == 't')
-		printf("%d is thinking\n", philo);
-	else if (log == 'a')
-		printf("All philosophers ate at least %d times\n", philo);
-	else if (log == 'd')
+	if (info->died == 0 && info->ate == 0)
 	{
-		printf("%d ", philo);
-		printf(RED"died\n"WHITE);
+		printf(CYAN"%lld "WHITE, timer(info->timer_start));
+		if (log == 'f')
+			printf("%d has taken a fork\n", philo);
+		else if (log == 'e')
+			printf("%d is eating\n", philo);
+		else if (log == 's')
+			printf("%d is sleeping\n", philo);
+		else if (log == 't')
+			printf("%d is thinking\n", philo);
+	}
+	else
+	{
+		printf(CYAN"%lld "WHITE, timer(info->timer_start));
+		if (log == 'a')
+			printf(YELLOW"All philosophers ate at least %d times\n"WHITE, philo);
+		else if (log == 'd')
+			printf("%d "RED"died\n"WHITE, philo);
 	}
 	pthread_mutex_unlock(&(info->printing));
 	return (0);
