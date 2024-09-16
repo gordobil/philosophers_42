@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:56:36 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:38:11 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,26 @@ void	sleeping(long long time)
 
 void	eating(t_philo *philo, t_info *info)
 {
-	int	i;
-	int	ate;
-
-	pthread_mutex_lock(&(info->forks[philo->l_fork - 1]));
+	sem_wait(info->forks);
 	print_logs(philo->philo, 'f', info);
-	pthread_mutex_lock(&(info->forks[philo->r_fork - 1]));
+	sem_wait(info->forks);
 	print_logs(philo->philo, 'f', info);
-	print_logs(philo->philo, 'e', info);
 	philo->last_eat = timer(-1);
+	print_logs(philo->philo, 'e', info);
 	sleeping(info->time_to_eat);
 	philo->times_eaten++;
-	pthread_mutex_unlock(&(info->forks[philo->l_fork - 1]));
-	pthread_mutex_unlock(&(info->forks[philo->r_fork - 1]));
+	sem_post(info->forks);
+	sem_post(info->forks);
 }
 
-void	*thread_actions(void *philo_void)
+void	fork_process(t_philo *philo)
 {
-	t_philo	*philo;
 	t_info	*info;
 
-	philo = (t_philo *)philo_void;
 	info = philo->info;
 	if (philo->philo % 2 == 0)
 		usleep(50000);
+	pthread_create(philo->death, NULL, check_death, philo);
 	while (info->died == 0 && info->ate == 0)
 	{
 		if (info->philo_count > 1)
@@ -61,6 +57,7 @@ void	*thread_actions(void *philo_void)
 			break ;
 		print_logs(philo->philo, 't', info);
 	}
+	pthread_join(philo->death, NULL);
 }
 
 void	philo(t_info *info)
@@ -73,11 +70,12 @@ void	philo(t_info *info)
 	info->timer_start = timer(-1);
 	while (i < info->philo_count)
 	{
-		pthread_create(&philo[i].thread, NULL, thread_actions, &philo[i]);
-		philo[i].last_eat = timer(-1);
-		i++;
+		philo->process_id = fork();
+		if (philo->process_id == 0)
+			fork_process(philo);
+		else if (philo->process_id < 0)
+			return (-1);
 	}
-	check_death(info);
 	exit_philo(info);
 }
 

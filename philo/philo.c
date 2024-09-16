@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:20:21 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:23:11 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ void	sleeping(long long time)
 
 void	eating(t_philo *philo, t_info *info)
 {
-	int	i;
-	int	ate;
-
 	pthread_mutex_lock(&(info->forks[philo->l_fork - 1]));
 	print_logs(philo->philo, 'f', info);
 	pthread_mutex_lock(&(info->forks[philo->r_fork - 1]));

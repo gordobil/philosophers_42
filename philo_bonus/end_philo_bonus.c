@@ -3,42 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   end_philo_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:56:24 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:50:56 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	check_death(t_info *info)
+int	check_death(t_philo *philo)
 {
-	int	i;
-	int	ate;
+	t_info	*info;
 
-	while (info->ate == 0 && info->died == 0)
+	info = philo->info;
+	while (1)
 	{
-		i = -1;
-		ate = 0;
-		while (++i < info->philo_count && info->died != 1)
+		if (timer(philo->last_eat) >= info->time_to_die)
 		{
-			if (timer(info->philos[i].last_eat) >= info->time_to_die)
-			{
-				info->died = 1;
-				print_logs(i + 1, 'd', info);
-				return (-1);
-			}
-			else if (info->philos[i].times_eaten >= info->min_eat)
-				ate++;
+			info->died = 1;
+			sem_wait("printing");
+			print_logs(philo->philo, 'd', info);
+			return (-1);
 		}
-		if (ate == info->philo_count && info->min_eat > -1)
+		if (philo->times_eaten >= info->min_eat && info->min_eat > -1)
 		{
 			info->ate = 1;
 			print_logs(info->min_eat, 'a', info);
 			return (1);
 		}
 	}
+	return (0);
 }
 
 void	exit_philo(t_info *info)

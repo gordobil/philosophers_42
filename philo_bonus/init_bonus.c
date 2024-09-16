@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:56:32 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:52:43 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	init_mutex(t_info *info)
+int	init_semaphores(t_info *info)
 {
-	int	i;
-
-	info->forks = malloc(info->philo_count * sizeof(pthread_mutex_t));
-	if (!info->forks)
+	sem_unlink("forks");
+	sem_unlink("printing");
+	info->forks = sem_open("forks", O_CREAT, S_IRWXU, info->philo_count);
+	info->printing = sem_open("printing", O_CREAT, S_IRWXU, 1);
+	if (!info->forks || !info->printing)
 		return (-1);
-	i = info->philo_count;
-	while (--i >= 0)
-		pthread_mutex_init(&info->forks[i], NULL);
-	pthread_mutex_init(&info->printing, NULL);
 	return (0);
 }
 
@@ -40,10 +37,6 @@ int	init_philos(t_info *info)
 		info->philos[i - 1].philo = i;
 		info->philos[i - 1].times_eaten = 0;
 		info->philos[i - 1].last_eat = 0;
-		info->philos[i - 1].l_fork = i;
-		info->philos[i - 1].r_fork = i + 1;
-		if (i == info->philo_count)
-			info->philos[i - 1].r_fork = 1;
 		i--;
 	}
 	return (0);

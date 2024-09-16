@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:56:54 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:37:46 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <sys/types.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 
 # define CYAN	"\033[1;93m"
 # define YELLOW	"\033[1;96m" 
@@ -29,12 +33,11 @@ struct	s_info;
 typedef struct s_philo
 {
 	int					philo;
-	int					l_fork;
-	int					r_fork;
 	int					times_eaten;
 	long long			last_eat;
-	pthread_t			thread;
+	pthread_t			death;
 	struct s_info		*info;
+	pid_t				process_id;
 }						t_philo;
 
 typedef struct s_info
@@ -48,8 +51,8 @@ typedef struct s_info
 	int					died;
 	long long			timer_start;
 	t_philo				*philos;
-	pthread_mutex_t		*forks;
-	pthread_mutex_t		printing;
+	sem_t				*forks;
+	sem_t				*printing;
 }						t_info;
 
 //MAIN
