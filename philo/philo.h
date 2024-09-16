@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/11 20:35:12 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:22:50 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_info
 	long long			timer_start;
 	t_philo				*philos;
 	pthread_mutex_t		*forks;
+//	pthread_mutex_t		eat;
 	pthread_mutex_t		printing;
 }						t_info;
 
@@ -63,5 +64,8 @@ void		exit_philo(t_info *info);
 long long	timer(long long past_time);
 int			print_logs(int philo, char log, t_info *info);
 long		ft_atoi(const char *str);
+
+//añadir mutex para el tiempo
+//mirar errores: valgrind --tool=helgrind ./philo 1 300 100 100
 
 #endif
