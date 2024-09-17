@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/17 12:55:56 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:50:23 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	eat(t_philo *philo, t_info *info)
 {
 	pthread_mutex_lock(&(info->forks[philo->l_fork - 1]));
 	print_logs(philo->philo, 'f', info);
+	if (info->philo_count <= 1)
+	{
+		pthread_mutex_unlock(&(info->forks[philo->l_fork - 1]));
+		return ;
+	}
 	pthread_mutex_lock(&(info->forks[philo->r_fork - 1]));
 	print_logs(philo->philo, 'f', info);
 	pthread_mutex_lock(&(info->eating));
@@ -48,11 +53,9 @@ void	*thread_actions(void *philo_void)
 		usleep(50000);
 	while (info->died == 0 && info->ate == 0)
 	{
-		if (info->philo_count > 1)
-			eat(philo, info);
-		else
-			break ;
-		if (info->died != 0 || (info->min_meals > -1 && info->ate != 0))
+		eat(philo, info);
+		if (info->died != 0 || (info->min_meals > -1 && info->ate != 0)
+			|| info->philo_count <= 1)
 			break ;
 		print_logs(philo->philo, 's', info);
 		sleeping(info->time_to_sleep);
@@ -60,13 +63,14 @@ void	*thread_actions(void *philo_void)
 			break ;
 		print_logs(philo->philo, 't', info);
 	}
+	return (philo_void);
 }
 
 void	philo(t_info *info)
 {
 	int		i;
 	t_philo	*philo;
-
+	
 	i = 0;
 	philo = info->philos;
 	info->timer_start = timer(-1);
@@ -79,11 +83,14 @@ void	philo(t_info *info)
 			exit_philo(info);
 			return ;
 		}
-		pthread_join(info->philos[i].thread, NULL);
 		philo[i].last_eat = timer(-1);
 		i++;
 	}
-	check_death(info);
+	pthread_create(&info->death, NULL, check_death, &info);
+	i = -1;
+	while (++i < info->philo_count)
+		pthread_join(info->philos[i].thread, NULL);
+	pthread_join(info->death, NULL);
 	exit_philo(info);
 }
 

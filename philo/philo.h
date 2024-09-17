@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/17 12:58:33 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:36:01 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ typedef struct s_info
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		eating;
 	pthread_mutex_t		printing;
+	pthread_t			death;
 }						t_info;
 
 //MAIN
 int			init(t_info *info, char **argv);
 int			check_args(char **argv);
 void		sleeping(long long time);
-int			check_death(t_info *info);
+void		*check_death(void *info_void);
 void		exit_philo(t_info *info);
 
 //UTILS
