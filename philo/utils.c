@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:25:01 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:44:52 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	print_logs(int philo, char log, t_info *info)
 	{
 		printf(CYAN"%lld "WHITE, timer(info->timer_start));
 		if (log == 'a')
-			printf(YELLOW"All ate at least %d time(s)\n"WHITE, philo);
+			printf(YLLW"All ate at least %d time(s)\n"WHITE, info->min_meals);
 		else if (log == 'd')
 			printf("%d "RED"died\n"WHITE, philo);
 	}

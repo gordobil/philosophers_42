@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/16 14:22:50 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:58:33 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 
 # define CYAN	"\033[1;93m"
-# define YELLOW	"\033[1;96m" 
+# define YLLW	"\033[1;96m" 
 # define RED	"\033[31m"
 # define WHITE	"\033[0m"
 
@@ -43,13 +43,13 @@ typedef struct s_info
 	long long			time_to_die;
 	long long			time_to_eat;
 	long long			time_to_sleep;
-	int					min_eat;
+	int					min_meals;
 	int					ate;
 	int					died;
 	long long			timer_start;
 	t_philo				*philos;
 	pthread_mutex_t		*forks;
-//	pthread_mutex_t		eat;
+	pthread_mutex_t		eating;
 	pthread_mutex_t		printing;
 }						t_info;
 
@@ -65,7 +65,6 @@ long long	timer(long long past_time);
 int			print_logs(int philo, char log, t_info *info);
 long		ft_atoi(const char *str);
 
-//añadir mutex para el tiempo
 //mirar errores: valgrind --tool=helgrind ./philo 1 300 100 100
 
 #endif

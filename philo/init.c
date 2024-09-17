@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:20:11 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:45:19 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ int	init_mutex(t_info *info)
 		return (-1);
 	i = info->philo_count;
 	while (--i >= 0)
-		pthread_mutex_init(&info->forks[i], NULL);
-	pthread_mutex_init(&info->printing, NULL);
+		if (pthread_mutex_init(&info->forks[i], NULL))
+			return (-1);
+	if (pthread_mutex_init(&info->printing, NULL)
+		|| pthread_mutex_init(&info->eating, NULL))
+		return (-1);
 	return (0);
 }
 
@@ -60,13 +63,16 @@ int	init(t_info *info, char **argv)
 	info->died = 0;
 	info->ate = 0;
 	if (argv[5] == NULL)
-		info->min_eat = -1;
+		info->min_meals = -1;
 	else
-		info->min_eat = ft_atoi(argv[5]);
+		info->min_meals = ft_atoi(argv[5]);
 	if (info->philo_count < 1 || info->time_to_die < 0 || info->time_to_eat < 0
-		|| info->time_to_sleep < 0 || info->min_eat < -1)
+		|| info->time_to_sleep < 0 || info->min_meals < -1)
 		return (-1);
 	if (init_philos(info) != 0 || init_mutex(info) != 0)
+	{
+		exit_philo(info);
 		return (-1);
+	}
 	return (0);
 }
