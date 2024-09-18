@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/13 13:56:45 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:57:39 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	print_logs(int philo, char log, t_info *info)
+void	print_logs(int philo, char log, t_info *info)
 {
-	pthread_mutex_lock(&(info->printing));
-	if (info->died == 0 && info->ate == 0)
+	sem_wait(info->printing);
+	if (info->died == 0 && info->all_ate == 0)
 	{
 		printf(CYAN"%lld "WHITE, timer(info->timer_start));
 		if (log == 'f')
@@ -31,12 +31,11 @@ int	print_logs(int philo, char log, t_info *info)
 	{
 		printf(CYAN"%lld "WHITE, timer(info->timer_start));
 		if (log == 'a')
-			printf(YELLOW"All ate at least %d time(s)\n"WHITE, philo);
+			printf(GREEN"All ate at least %d time(s)\n"WHITE, info->min_meals);
 		else if (log == 'd')
 			printf("%d "RED"died\n"WHITE, philo);
 	}
-	pthread_mutex_unlock(&(info->printing));
-	return (0);
+	sem_post(info->printing);
 }
 
 long long	timer(long long past_time)

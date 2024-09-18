@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/17 14:36:01 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:57:59 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <sys/time.h>
 
 # define CYAN	"\033[1;93m"
-# define YLLW	"\033[1;96m" 
-# define RED	"\033[31m"
+# define RED	"\033[1;96m" 
+# define GREEN	"\033[1;31m"
 # define WHITE	"\033[0m"
 
 struct	s_info;
@@ -44,26 +44,26 @@ typedef struct s_info
 	long long			time_to_eat;
 	long long			time_to_sleep;
 	int					min_meals;
-	int					ate;
+	int					all_ate;
 	int					died;
 	long long			timer_start;
 	t_philo				*philos;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		eating;
 	pthread_mutex_t		printing;
-	pthread_t			death;
+	pthread_mutex_t		death;
 }						t_info;
 
 //MAIN
 int			init(t_info *info, char **argv);
 int			check_args(char **argv);
 void		sleeping(long long time);
-void		*check_death(void *info_void);
+int			check_death(t_info *info);
 void		exit_philo(t_info *info);
 
 //UTILS
 long long	timer(long long past_time);
-int			print_logs(int philo, char log, t_info *info);
+void		print_logs(int philo, char log, t_info *info);
 long		ft_atoi(const char *str);
 
 //mirar errores: valgrind --tool=helgrind ./philo 1 300 100 100

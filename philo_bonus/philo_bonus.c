@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/16 12:38:11 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:27:44 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,21 @@ void	sleeping(long long time)
 		usleep(50);
 }
 
-void	eating(t_philo *philo, t_info *info)
+void	eat(t_philo *philo, t_info *info)
 {
 	sem_wait(info->forks);
 	print_logs(philo->philo, 'f', info);
+	if (info->philo_count <= 1)
+	{
+		sem_post(info->forks);
+		return ;
+	}
 	sem_wait(info->forks);
 	print_logs(philo->philo, 'f', info);
-	philo->last_eat = timer(-1);
+	sem_wait(info->eating);
 	print_logs(philo->philo, 'e', info);
+	philo->last_eat = timer(-1);
+	sem_post(info->eating);
 	sleeping(info->time_to_eat);
 	philo->times_eaten++;
 	sem_post(info->forks);
@@ -42,22 +49,18 @@ void	fork_process(t_philo *philo)
 	info = philo->info;
 	if (philo->philo % 2 == 0)
 		usleep(50000);
-	pthread_create(philo->death, NULL, check_death, philo);
-	while (info->died == 0 && info->ate == 0)
+	while (info->died == 0 && info->all_ate == 0)
 	{
-		if (info->philo_count > 1)
-			eating(philo, info);
-		else
-			break ;
-		if (info->died != 0 || (info->min_eat > -1 && info->ate != 0))
+		eat(philo, info);
+		if (info->died != 0 || (info->min_meals > -1 && info->all_ate != 0)
+			|| info->philo_count <= 1)
 			break ;
 		print_logs(philo->philo, 's', info);
 		sleeping(info->time_to_sleep);
-		if (info->died != 0 || (info->min_eat > -1 && info->ate != 0))
+		if (info->died != 0 || (info->min_meals > -1 && info->all_ate != 0))
 			break ;
 		print_logs(philo->philo, 't', info);
 	}
-	pthread_join(philo->death, NULL);
 }
 
 void	philo(t_info *info)
@@ -70,12 +73,14 @@ void	philo(t_info *info)
 	info->timer_start = timer(-1);
 	while (i < info->philo_count)
 	{
-		philo->process_id = fork();
-		if (philo->process_id == 0)
-			fork_process(philo);
-		else if (philo->process_id < 0)
-			return (-1);
+		philo[i].process_id = fork();
+		if (philo[i].process_id == 0)
+			fork_process(&philo[i]);
+		else if (philo[i].process_id < 0)
+			break ;
+		i++;
 	}
+	check_death(info);
 	exit_philo(info);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/17 12:45:19 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:39:38 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	init_mutex(t_info *info)
 		if (pthread_mutex_init(&info->forks[i], NULL))
 			return (-1);
 	if (pthread_mutex_init(&info->printing, NULL)
-		|| pthread_mutex_init(&info->eating, NULL))
+		|| pthread_mutex_init(&info->eating, NULL)
+		|| pthread_mutex_init(&info->death, NULL))
 		return (-1);
 	return (0);
 }
@@ -61,7 +62,7 @@ int	init(t_info *info, char **argv)
 	info->time_to_eat = ft_atoi(argv[3]);
 	info->time_to_sleep = ft_atoi(argv[4]);
 	info->died = 0;
-	info->ate = 0;
+	info->all_ate = 0;
 	if (argv[5] == NULL)
 		info->min_meals = -1;
 	else

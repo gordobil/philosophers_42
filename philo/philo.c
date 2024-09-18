@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/17 14:50:23 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:39:24 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ void	*thread_actions(void *philo_void)
 	info = philo->info;
 	if (philo->philo % 2 == 0)
 		usleep(50000);
-	while (info->died == 0 && info->ate == 0)
+	while (info->died == 0 && info->all_ate == 0)
 	{
 		eat(philo, info);
-		if (info->died != 0 || (info->min_meals > -1 && info->ate != 0)
+		if (info->died != 0 || (info->min_meals > -1 && info->all_ate != 0)
 			|| info->philo_count <= 1)
 			break ;
 		print_logs(philo->philo, 's', info);
 		sleeping(info->time_to_sleep);
-		if (info->died != 0 || (info->min_meals > -1 && info->ate != 0))
+		if (info->died != 0 || (info->min_meals > -1 && info->all_ate != 0))
 			break ;
 		print_logs(philo->philo, 't', info);
 	}
@@ -70,7 +70,7 @@ void	philo(t_info *info)
 {
 	int		i;
 	t_philo	*philo;
-	
+
 	i = 0;
 	philo = info->philos;
 	info->timer_start = timer(-1);
@@ -86,11 +86,7 @@ void	philo(t_info *info)
 		philo[i].last_eat = timer(-1);
 		i++;
 	}
-	pthread_create(&info->death, NULL, check_death, &info);
-	i = -1;
-	while (++i < info->philo_count)
-		pthread_join(info->philos[i].thread, NULL);
-	pthread_join(info->death, NULL);
+	check_death(info);
 	exit_philo(info);
 }
 

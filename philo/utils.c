@@ -6,16 +6,16 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/17 12:44:52 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:58:14 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	print_logs(int philo, char log, t_info *info)
+void	print_logs(int philo, char log, t_info *info)
 {
 	pthread_mutex_lock(&(info->printing));
-	if (info->died == 0 && info->ate == 0)
+	if (info->died == 0 && info->all_ate == 0)
 	{
 		printf(CYAN"%lld "WHITE, timer(info->timer_start));
 		if (log == 'f')
@@ -31,12 +31,11 @@ int	print_logs(int philo, char log, t_info *info)
 	{
 		printf(CYAN"%lld "WHITE, timer(info->timer_start));
 		if (log == 'a')
-			printf(YLLW"All ate at least %d time(s)\n"WHITE, info->min_meals);
+			printf(GREEN"All ate at least %d time(s)\n"WHITE, info->min_meals);
 		else if (log == 'd')
 			printf("%d "RED"died\n"WHITE, philo);
 	}
 	pthread_mutex_unlock(&(info->printing));
-	return (0);
 }
 
 long long	timer(long long past_time)

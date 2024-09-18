@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/16 11:52:43 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:21:29 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@ int	init_semaphores(t_info *info)
 {
 	sem_unlink("forks");
 	sem_unlink("printing");
+	sem_unlink("eating");
+	sem_unlink("death");
 	info->forks = sem_open("forks", O_CREAT, S_IRWXU, info->philo_count);
 	info->printing = sem_open("printing", O_CREAT, S_IRWXU, 1);
-	if (!info->forks || !info->printing)
+	info->eating = sem_open("eating", O_CREAT, S_IRWXU, 1);
+	info->death = sem_open("death", O_CREAT, S_IRWXU, 1);
+	if (!info->forks || !info->printing || !info->eating || !info->death)
 		return (-1);
 	return (0);
 }
@@ -51,15 +55,15 @@ int	init(t_info *info, char **argv)
 	info->time_to_eat = ft_atoi(argv[3]);
 	info->time_to_sleep = ft_atoi(argv[4]);
 	info->died = 0;
-	info->ate = 0;
+	info->all_ate = 0;
 	if (argv[5] == NULL)
-		info->min_eat = -1;
+		info->min_meals = -1;
 	else
-		info->min_eat = ft_atoi(argv[5]);
+		info->min_meals = ft_atoi(argv[5]);
 	if (info->philo_count < 1 || info->time_to_die < 0 || info->time_to_eat < 0
-		|| info->time_to_sleep < 0 || info->min_eat < -1)
+		|| info->time_to_sleep < 0 || info->min_meals < -1)
 		return (-1);
-	if (init_philos(info) != 0 || init_mutex(info) != 0)
+	if (init_philos(info) != 0 || init_semaphores(info) != 0)
 		return (-1);
 	return (0);
 }
