@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/18 14:21:29 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:33:45 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 int	init_semaphores(t_info *info)
 {
+	int		i;
+	t_philo	*philos;
+
+	philos = info->philos;
 	sem_unlink("forks");
 	sem_unlink("printing");
 	sem_unlink("eating");
-	sem_unlink("death");
 	info->forks = sem_open("forks", O_CREAT, S_IRWXU, info->philo_count);
 	info->printing = sem_open("printing", O_CREAT, S_IRWXU, 1);
 	info->eating = sem_open("eating", O_CREAT, S_IRWXU, 1);
-	info->death = sem_open("death", O_CREAT, S_IRWXU, 1);
-	if (!info->forks || !info->printing || !info->eating || !info->death)
+	if (!info->forks || !info->printing || !info->eating)
 		return (-1);
 	return (0);
 }

@@ -1,12 +1,12 @@
-/* ************************************************************************** */
+	º/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/18 14:26:43 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:44:30 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_philo
 	long long			last_eat;
 	struct s_info		*info;
 	pid_t				process_id;
+	pthread_t			death_thr;
 }						t_philo;
 
 typedef struct s_info
@@ -54,14 +55,13 @@ typedef struct s_info
 	sem_t				*forks;
 	sem_t				*printing;
 	sem_t				*eating;
-	sem_t				*death;
 }						t_info;
 
 //MAIN
 int			init(t_info *info, char **argv);
 int			check_args(char **argv);
 void		sleeping(long long time);
-void		check_death(t_info *info);
+void		*check_death(void *philo_void);
 void		exit_philo(t_info *info);
 
 //UTILS
