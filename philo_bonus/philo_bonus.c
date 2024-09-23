@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/23 14:07:48 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:45:31 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,20 @@ void	fork_process(t_philo *philo)
 	t_info	*info;
 
 	info = philo->info;
-	pthread_create(&(philo->death_thr), NULL, check_death, &philo);
+	philo->last_eat = timer(-1);
+	pthread_create(&(philo->death_thr), NULL, check_death, philo);
 	if (philo->philo % 2 == 0)
 		usleep(50000);
 	while (info->died == 0 && info->all_ate == 0)
 	{
 		eat(philo, info);
-		if (info->died != 0 || (info->min_meals > -1 && info->all_ate != 0)
-			|| info->philo_count <= 1)
+		if (info->died != 0 || info->philo_count <= 1 || (info->min_meals > -1
+			&& philo->times_eaten >= info->min_meals))
 			break ;
 		print_logs(philo->philo, 's', info);
 		sleeping(info->time_to_sleep);
-		if (info->died != 0 || (info->min_meals > -1 && info->all_ate != 0))
+		if (info->died != 0 || info->philo_count <= 1 || (info->min_meals > -1
+			&& philo->times_eaten >= info->min_meals))
 			break ;
 		print_logs(philo->philo, 't', info);
 	}

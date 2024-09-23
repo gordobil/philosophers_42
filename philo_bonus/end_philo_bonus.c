@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end_philo_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/23 14:05:14 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:39:27 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*check_death(void *philo_void)
 	t_philo	*philo;
 	t_info	*info;
 
-	philo = (void *)philo_void;
+	philo = (t_philo *)philo_void;
 	info = philo->info;
 	while (1)
 	{
