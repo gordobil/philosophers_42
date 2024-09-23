@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end_philo_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/20 12:39:49 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:05:14 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,21 @@ void	*check_death(void *philo_void)
 
 	philo = (void *)philo_void;
 	info = philo->info;
-	while (info->all_ate == 0 && info->died == 0)
+	while (1)
 	{
 		sem_wait(info->eating);
 		if (timer(philo->last_eat) >= info->time_to_die)
 		{
 			info->died = 1;
 			print_logs(philo->philo, 'd', info);
-			sem_post(info->eating);
-			break ;
-		}
-		if (check_meals(info) != 0 || info->died != 0)
-		{
-			sem_post(info->eating);
-			break ;
+			exit (1);
 		}
 		sem_post(info->eating);
+		if ((philo->times_eaten >= info->min_meals && info->min_meals > -1)
+			|| info->died != 0)
+			break ;
 	}
+	return (NULL);
 }
 
 void	exit_philo(t_info *info)
