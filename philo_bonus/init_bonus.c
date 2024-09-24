@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:44:59 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/20 11:33:45 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:23:22 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	init(t_info *info, char **argv)
 	info->time_to_eat = ft_atoi(argv[3]);
 	info->time_to_sleep = ft_atoi(argv[4]);
 	info->died = 0;
-	info->all_ate = 0;
 	if (argv[5] == NULL)
 		info->min_meals = -1;
 	else

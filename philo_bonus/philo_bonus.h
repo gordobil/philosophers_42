@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/24 12:05:16 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:23:14 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_info
 	long long			time_to_eat;
 	long long			time_to_sleep;
 	int					min_meals;
-	int					all_ate;
 	int					died;
 	long long			timer_start;
 	t_philo				*philos;

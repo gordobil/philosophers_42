@@ -6,35 +6,11 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/24 13:00:13 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:22:02 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-int	check_meals(t_info *info)
-{
-	int		ate;
-	int		i;
-	t_philo	*philo;
-
-	ate = 0;
-	i = 0;
-	philo = info->philos;
-	while (i < info->philo_count)
-	{
-		if (philo[i].times_eaten >= info->min_meals)
-			ate++;
-		i++;
-	}
-	if (ate == info->philo_count && info->min_meals > -1)
-	{
-		info->all_ate = 1;
-		print_logs(info->min_meals, 'a', info);
-		return (1);
-	}
-	return (0);
-}
 
 void	*check_death(void *philo_void)
 {
