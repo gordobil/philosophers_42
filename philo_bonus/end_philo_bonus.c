@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/24 12:05:31 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:00:13 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*check_death(void *philo_void)
 		{
 			info->died = 1;
 			print_logs(philo->philo, 'd', info);
-			exit (1);
+			break ;
 		}
 		sem_post(info->eating);
 		if ((philo->times_eaten >= info->min_meals && info->min_meals > -1)
