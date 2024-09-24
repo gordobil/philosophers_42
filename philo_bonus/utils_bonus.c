@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:41:44 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/24 11:56:30 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:34:26 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_logs(int philo, char log, t_info *info)
 {
 	sem_wait(info->printing);
-	if (info->died == 0 && info->all_ate == 0 && log != 'a' && log != 'd')
+	if (info->died == 0 && log != 'a' && log != 'd')
 	{
 		printf(CYAN"%lld "WHITE, timer(info->timer_start));
 		if (log == 'f')
