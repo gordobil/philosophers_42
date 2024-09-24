@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:37:57 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/23 19:39:27 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:05:31 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,27 @@ void	*check_death(void *philo_void)
 	return (NULL);
 }
 
-void	exit_philo(t_info *info)
+void	exit_philo(t_info *info, t_philo *philos)
 {
-	int	i;
+	int		i;
+	int		wait_ret;
 
-	i = -1;
-	waitpid(-1, NULL, 0);
+	i = 0;
+	wait_ret = 0;
+	while (i < info->philo_count)
+	{
+		waitpid(-1, &wait_ret, 0);
+		if (wait_ret != 0)
+		{
+			if (wait_ret == 512)
+				print_logs(i, 'a', info);
+			i = -1;
+			while (++i < info->philo_count)
+				kill(philos[i].process_id, 15);
+			break ;
+		}
+		i++;
+	}
 	sem_close(info->forks);
 	sem_close(info->printing);
 	sem_close(info->eating);

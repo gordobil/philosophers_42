@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngordobi <ngordobi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:56 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/23 12:14:01 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:05:16 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			init(t_info *info, char **argv);
 int			check_args(char **argv);
 void		sleeping(long long time);
 void		*check_death(void *philo_void);
-void		exit_philo(t_info *info);
+void		exit_philo(t_info *info, t_philo *philos);
 
 //UTILS
 long long	timer(long long past_time);

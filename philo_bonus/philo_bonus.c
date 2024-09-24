@@ -6,7 +6,7 @@
 /*   By: ngordobi <ngordobi@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 13:10:17 by ngordobi          #+#    #+#             */
-/*   Updated: 2024/09/23 19:45:31 by ngordobi         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:05:22 by ngordobi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	fork_process(t_philo *philo)
 	while (info->died == 0 && info->all_ate == 0)
 	{
 		eat(philo, info);
-		if (info->died != 0 || info->philo_count <= 1 || (info->min_meals > -1
-			&& philo->times_eaten >= info->min_meals))
-			break ;
+		if (info->died != 0 || info->philo_count <= 1)
+			exit (1);
+		else if (info->min_meals > -1 && philo->times_eaten >= info->min_meals)
+			exit (2);
 		print_logs(philo->philo, 's', info);
 		sleeping(info->time_to_sleep);
-		if (info->died != 0 || info->philo_count <= 1 || (info->min_meals > -1
-			&& philo->times_eaten >= info->min_meals))
-			break ;
+		if (info->died != 0 || info->philo_count <= 1)
+			exit (1);
 		print_logs(philo->philo, 't', info);
 	}
 	pthread_join(philo->death_thr, NULL);
@@ -86,7 +86,7 @@ void	philo(t_info *info)
 			break ;
 		i++;
 	}
-	exit_philo(info);
+	exit_philo(info, philo);
 }
 
 int	main(int argc, char **argv)
